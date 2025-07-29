@@ -27,7 +27,24 @@ function App() {
     requestPermission().then((fcmToken) => {
       if (fcmToken) {
         tokenRef.current = fcmToken; // ✅ instant store
-        setToken(fcmToken); // still sets state for UI
+        setToken(fcmToken);
+
+        // fetch("http://localhost:5000/save-token", {
+        fetch("https://newbackendcode.onrender.com/save-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: fcmToken }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("✅ Token saved to backend:", data);
+          })
+          .catch((err) => {
+            console.error("❌ Failed to save token:", err);
+          });
+        // still sets state for UI
       }
     });
 
@@ -38,14 +55,6 @@ function App() {
 
       const { title, body } = payload.notification || {};
 
-      // if (Notification.permission === "granted" && title && body) {
-      //   new Notification(title, {
-      //     body,
-      //     icon: "/logo192.png",
-      //   });
-      // } else {
-      //   alert(`${title} - ${body}`);
-      // }
       if (Notification.permission === "granted" && title && body) {
         navigator.serviceWorker.getRegistration().then(function (reg) {
           if (reg) {
@@ -119,95 +128,3 @@ function App() {
 }
 
 export default App;
-
-// import React, { useEffect, useState, useRef } from "react";
-// import requestPermission from "./requestPermission";
-// import { messaging } from "./firebase";
-// import { onMessage } from "firebase/messaging";
-
-// function App() {
-//   const [token, setToken] = useState(null);
-//   const tokenRef = useRef(null);
-
-//   useEffect(() => {
-//     // ✅ STEP 1: Register service worker
-//     if ("serviceWorker" in navigator) {
-//       navigator.serviceWorker
-//         .register("/firebase-messaging-sw.js")
-//         .then((registration) => {
-//           console.log("✅ Service Worker registered:", registration.scope);
-//           alert("✅ Service Worker registered");
-//         })
-//         .catch((error) => {
-//           console.error("❌ Service Worker registration failed:", error);
-//           alert("❌ Service Worker failed: " + error.message);
-//         });
-//     } else {
-//       alert("❌ Service worker not supported");
-//     }
-
-//     requestPermission().then((fcmToken) => {
-//       if (fcmToken) {
-//         tokenRef.current = fcmToken;
-//         setToken(fcmToken);
-//       }
-//     });
-
-//     // ✅ STEP 3: Foreground listener
-//     onMessage(messaging, (payload) => {
-//       console.log("🔔 Foreground message received:", payload);
-//       alert("🔔 Push received!\n" + JSON.stringify(payload));
-
-//       const { title, body } = payload.notification || {};
-
-//       // if (Notification.permission === "granted" && title && body) {
-//       //   new Notification(title, {
-//       //     body,
-//       //     icon: "/logo192.png",
-//       //   });
-//       // } else {
-//       //   alert(`${title} - ${body}`);
-//       // }
-
-//       if (Notification.permission === "granted" && title && body) {
-//         navigator.serviceWorker.getRegistration().then(function (reg) {
-//           if (reg) {
-//             reg.showNotification(title, {
-//               body,
-//               icon: "/logo192.png",
-//               badge: "/logo192.png",
-//               vibrate: [200, 100, 200],
-//               data: {
-//                 url: "https://newfrontendcode.vercel.app/",
-//               },
-//             });
-//           }
-//         });
-//       } else {
-//         alert(`${title} - ${body}`);
-//       }
-//     });
-//   }, []);
-
-//   return (
-//     <div className="App" style={{ padding: "2rem", fontFamily: "Poppins" }}>
-//       <h1>🔥 Firebase Web Push Notifications</h1>
-//       <p>
-//         Install this app on your mobile home screen (PWA) & allow notifications.
-//       </p>
-
-//       {token && (
-//         <div>
-//           <h3>✅ Your FCM Token:</h3>
-//           <textarea
-//             readOnly
-//             style={{ width: "100%", height: "100px", marginTop: "10px" }}
-//             value={token}
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default App;
