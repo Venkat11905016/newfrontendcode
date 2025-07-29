@@ -143,10 +143,28 @@ function App() {
 
       const { title, body } = payload.notification || {};
 
+      // if (Notification.permission === "granted" && title && body) {
+      //   new Notification(title, {
+      //     body,
+      //     icon: "/logo192.png",
+      //   });
+      // } else {
+      //   alert(`${title} - ${body}`);
+      // }
+
       if (Notification.permission === "granted" && title && body) {
-        new Notification(title, {
-          body,
-          icon: "/logo192.png",
+        navigator.serviceWorker.getRegistration().then(function (reg) {
+          if (reg) {
+            reg.showNotification(title, {
+              body,
+              icon: "/logo192.png",
+              badge: "/logo192.png",
+              vibrate: [200, 100, 200],
+              data: {
+                url: "https://newfrontendcode.vercel.app/",
+              },
+            });
+          }
         });
       } else {
         alert(`${title} - ${body}`);
