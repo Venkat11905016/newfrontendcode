@@ -14,14 +14,14 @@ function App() {
         .register("/firebase-messaging-sw.js")
         .then((registration) => {
           console.log("✅ Service Worker registered:", registration.scope);
-          alert("✅ Service Worker registered");
+          // alert("✅ Service Worker registered");
         })
         .catch((error) => {
           console.error("❌ Service Worker registration failed:", error);
-          alert("❌ Service Worker failed: " + error.message);
+          // alert("❌ Service Worker failed: " + error.message);
         });
     } else {
-      alert("❌ Service worker not supported");
+      // alert("❌ Service worker not supported");
     }
 
     requestPermission().then((fcmToken) => {
@@ -51,7 +51,7 @@ function App() {
     // ✅ STEP 3: Foreground listener (when app is open)
     onMessage(messaging, (payload) => {
       console.log("🔔 Foreground message received:", payload);
-      alert("🔔 Push received!\n" + JSON.stringify(payload));
+      // alert("🔔 Push received!\n" + JSON.stringify(payload));
 
       const { title, body } = payload.notification || {};
 
@@ -99,7 +99,7 @@ function App() {
 
       const result = await response.json();
       console.log("✅ Server Response:", result);
-      alert("✅ Notification sent via backend.");
+      // alert("✅ Notification sent via backend.");
     } catch (error) {
       console.error("❌ Failed to send notification:", error);
       alert("❌ Backend error:\n" + error.message);
