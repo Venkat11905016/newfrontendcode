@@ -28,7 +28,7 @@ messaging.onBackgroundMessage(function (payload) {
     icon: "/logo192.png", // ✅ Required for Android to show icon
     badge: "/logo192.png", // Optional: badge icon for status bar
     data: {
-      click_action: "https://newfrontendcode.vercel.app/", // ✅ Ensure clickable redirect
+      click_action: "https://newfrontendcode.vercel.app/notifications",
     },
   };
 
