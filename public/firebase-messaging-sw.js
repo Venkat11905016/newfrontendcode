@@ -19,21 +19,21 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // ✅ Handle background notifications
-messaging.onBackgroundMessage(function (payload) {
-  console.log("🔕 Received background message: ", payload);
+// messaging.onBackgroundMessage(function (payload) {
+//   console.log("🔕 Received background message: ", payload);
 
-  const notificationTitle = payload.notification?.title || "🔔 Notification";
-  const notificationOptions = {
-    body: payload.notification?.body || "",
-    icon: "/logo192.png", // ✅ Required for Android to show icon
-    badge: "/logo192.png", // Optional: badge icon for status bar
-    data: {
-      click_action: "https://newfrontendcode.vercel.app/notifications",
-    },
-  };
+//   const notificationTitle = payload.notification?.title || "🔔 Notification";
+//   const notificationOptions = {
+//     body: payload.notification?.body || "",
+//     icon: "/logo192.png", // ✅ Required for Android to show icon
+//     badge: "/logo192.png", // Optional: badge icon for status bar
+//     data: {
+//       click_action: "https://newfrontendcode.vercel.app/notifications",
+//     },
+//   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 // ✅ Optional: Handle notification click event (best practice)
 self.addEventListener("notificationclick", function (event) {

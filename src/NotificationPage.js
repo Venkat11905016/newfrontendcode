@@ -55,7 +55,7 @@ export default function NotificationPage() {
               badge: "/logo192.png",
               vibrate: [200, 100, 200],
               data: {
-                url: "https://newfrontendcode.vercel.app/",
+                url: "https://newfrontendcode.vercel.app/notifications",
               },
             });
           }
